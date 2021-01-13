@@ -1,59 +1,58 @@
+<style lang="scss">
+.vuedl-notification {
+  overflow: visible !important;
+  .v-alert__icon {
+    margin-right: 10px;
+    top: -28px;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  }
+}
+</style>
 <template>
-  <v-alert
+  <base-material-alert
     style="margin: 0; min-width: 300px"
     @input="$emit('submit')"
     :dismissible="dismissible"
     :type="color"
-    :icon="getIcon"
     :outlined="outlined"
     :prominent="prominent"
-    :text="flat"
-    :border="border"
-    :tile="tile"
-    :dense="dense"
   >
     <div class="d-flex align-center">
       <div class="mr-2" v-html="text"></div>
       <DialogActions :actions="actions" />
     </div>
-  </v-alert>
+  </base-material-alert>
 </template>
 <script>
-
-import DialogActions from './DialogActions.vue'
-import Iconable from '../mixins/iconable'
-import { VAlert } from 'vuetify/lib'
+import DialogActions from "./DialogActions.vue";
+import { VAlert } from "vuetify/lib";
 
 export default {
   components: {
     DialogActions,
-    VAlert
+    VAlert,
   },
-  mixins: [Iconable],
-  layout: ['notification', { showClose: false }],
+  layout: ["notification", { showClose: false }],
   props: {
     color: {
       type: String,
-      default: 'info'
+      default: () => "info",
     },
     actions: {
       type: [Array, Object],
-      default: () => ({})
+      default: () => {},
     },
     text: {
       type: String,
-      default: ''
+      default: "",
     },
     outlined: Boolean,
     prominent: Boolean,
     dismissible: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    flat: Boolean,
-    border: String,
-    tile: Boolean,
-    dense: Boolean
-  }
-}
+  },
+};
 </script>

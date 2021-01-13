@@ -10,7 +10,6 @@
     :scrollable="scrollable"
     :transition="transition"
     :hide-overlay="hideOverlay"
-    :retain-focus="false"
     @keydown.esc="dismiss"
   >
     <div class="v-dialog-wrapper">
@@ -30,12 +29,12 @@
 </template>
 
 <script>
-import { VDialog } from 'vuetify/lib'
+// import { VDialog } from 'vuetify/lib'
 
 export default {
-  components: {
-    VDialog
-  },
+//   components: {
+//     VDialog
+//   },
   props: {
     fullscreen: Boolean,
     scrollable: Boolean,
@@ -76,17 +75,12 @@ export default {
     width: 16px;
     height: 16px;
     font-family: -webkit-pictograph;
+    right: 14px;
     font-size: 30px;
     opacity: 0.5;
     z-index: 1000;
     cursor: pointer;
     line-height: 0.5;
-  }
-  .v-application--is-ltr .vuedl-layout__closeBtn {
-    right: 14px;
-  }
-  .v-application--is-rtl .vuedl-layout__closeBtn {
-    left: 14px;
   }
   .vuedl-layout__closeBtn:hover {
     opacity: 1;

@@ -3,17 +3,16 @@
     <DialogCard
       :title="title"
       :actions="actions"
-      :handler="handlerClick"
-      :title-class="titleClass"
+      :handle="handleClick"
       ref="card"
     >
       <v-text-field
         ref="input"
+        required
+        outlined
         v-model="editedValue"
-        :rules="rules"
         :label="text"
-        v-bind="textField"
-        @keyup.enter.stop="onEnter"
+        @keypress.enter="$emit('submit', editedValue)"
       />
     </DialogCard>
   </div>
@@ -33,14 +32,7 @@ export default {
   layout: 'default',
   mixins: [Confirmable],
   props: {
-    value: String,
-    rules: Array,
-    textField: Object,
-    titleClass: [String, Object],
-    autofocus: {
-      type: Boolean,
-      default: true
-    }
+    value: String
   },
   data () {
     return {
@@ -48,26 +40,14 @@ export default {
     }
   },
   mounted () {
-    if (this.autofocus) {
-      setTimeout(() => {
-        this.$refs.input.focus()
-      }, 100)
-    }
+    setTimeout(() => {
+      this.$refs.input.focus()
+    }, 100)
   },
   methods: {
-    onEnter () {
-      this.$refs.card.$refs.actions.trigger(true)
-    },
-    handlerClick (res, action) {
-      if (!action.key) {
-        this.$emit('submit', action.key)
-      }
-      const valid = this.rules ? this.$refs.input.validate() : true
-      if (!valid) {
-        this.$refs.input.focus()
-        return false
-      }
+    handleClick (res, action) {
       this.$emit('submit', action.key ? this.editedValue : action.key)
+      return false
     }
   }
 }

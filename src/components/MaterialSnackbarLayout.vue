@@ -2,15 +2,19 @@
 .toast .v-alert {
   width: 100%;
   .v-alert__icon {
-    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
-      0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
   }
 }
 </style>
 <template>
-  <v-snackbar
-    :timeout="timeout || 1000000"
+  <base-material-snackbar
+    :timeout="timeout || 10000"
+    :color="getColor"
+    :type="getColor"
     v-model="isActive"
+    class="application toast"
+    v-bind="$options.propsData"
     :top="top"
     :left="left"
     :right="right"
@@ -18,24 +22,19 @@
     @click="dismiss"
     :dismissible="false"
   >
-    <div class="d-flex align-center justify-space-between">
-      <dialog-child v-bind="$options.propsData" ref="dialog" />
-      <v-btn small color="pink" icon @click="isActive = false">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </div>
-  </v-snackbar>
+    <dialog-child v-bind="$options.propsData" ref="dialog" />
+  </base-material-snackbar>
 </template>
 
 <script>
-// import Colorable from "../mixins/colorable";
-// import { VSnackbar } from "vuetify/lib";
+import Colorable from "../mixins/colorable";
+import { VSnackbar } from "vuetify/lib";
 
 export default {
-  //   components: {
-  //     VSnackbar,
-  //   },
-  //   mixins: [Colorable],
+  components: {
+    VSnackbar,
+  },
+  mixins: [Colorable],
   props: {
     timeout: Number,
     position: String,

@@ -1,15 +1,7 @@
 <template>
-  <v-card-actions v-if="actionlist && Object.keys(actionlist).length">
-    <v-spacer
-      v-if="!actions.spacer"
-    />
+  <div class="DialogActions">
     <template v-for="action in actionlist">
-      <v-spacer
-        v-if="action.key === 'spacer'"
-        :key="action.key"
-      />
       <DialogAction
-        v-else
         :key="action.key"
         v-bind="getActionProps(action)"
         :action-key="''+action.key"
@@ -19,19 +11,17 @@
         @click="onActionClick(action)"
       />
     </template>
-  </v-card-actions>
+    <slot />
+  </div>
 </template>
-
 <script>
+
 import Actionable from 'vuedl/src/mixins/actionable'
 import DialogAction from './DialogAction.vue'
-import { VSpacer, VCardActions } from 'vuetify/lib'
 
 export default {
   components: {
-    DialogAction,
-    VSpacer,
-    VCardActions
+    DialogAction
   },
   mixins: [Actionable],
   props: {
@@ -40,19 +30,16 @@ export default {
     flat: Boolean,
     rounded: Boolean,
     outlined: Boolean,
-    passive: Boolean,
-    block: Boolean,
-    large: Boolean,
-    small: Boolean
+    passive: Boolean
   },
   computed: {
     nestedProps () {
       return [
         'color',
         'flat',
-        'rounded',
-        'outlined',
         'icon',
+        'outlined',
+        'rounded',
         'block',
         'small',
         'large',
@@ -65,7 +52,8 @@ export default {
     getActionProps (action) {
       const res = {
         component: action.component || this.component,
-        text: action.text
+        text: action.text,
+        
       }
       this.nestedProps.forEach(key => {
         if (action[key] || this[key]) {

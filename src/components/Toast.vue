@@ -1,13 +1,20 @@
 <template>
-  <div v-html="text" />
+  <div>
+    <span v-html="text" />
+    <DialogActions :actions="actions" />
+  </div>
 </template>
 
 <script>
 
+import Confirmable from 'vuedl/src/mixins/confirmable'
+import DialogActions from './DialogActions.vue'
+
 export default {
   layout: 'snackbar',
-  props: {
-    text: String
+  mixins: [Confirmable],
+  components: {
+    DialogActions
   }
 }
 </script>

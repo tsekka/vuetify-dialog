@@ -4,24 +4,25 @@
     :class="{'v-inner-scroll': innerScroll }"
   >
     <slot name="title">
-      <v-card-title
-        v-if="title"
-        :class="titleClass"
-      >
-        {{ title }}
+      <v-card-title v-if="title">
+        <div
+          :class="titleClass"
+          v-text="title"
+        />
       </v-card-title>
     </slot>
     <v-card-text>
       <slot />
     </v-card-text>
-    <DialogActions
-      v-if="actions"
-      ref="actions"
-      :actions="actions"
-      v-bind="actionOptions"
-      :handler="handler || handle"
-    />
-    <slot name="footer" />
+    <v-card-actions v-if="actions">
+      <v-spacer />
+      <DialogActions
+        :actions="actions"
+        flat
+        ref="actions"
+        :handle="handle"
+      />
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -29,7 +30,7 @@
 
 import DialogActions from './DialogActions.vue'
 
-import { VCard, VCardTitle, VCardText } from 'vuetify/lib'
+import { VCard, VCardTitle, VCardText, VCardActions, VSpacer } from 'vuetify/lib'
 
 export default {
   inheritAttrs: false,
@@ -37,27 +38,17 @@ export default {
     DialogActions,
     VCard,
     VCardTitle,
-    VCardText
+    VCardText,
+    VCardActions,
+    VSpacer
   },
   props: {
     title: String,
     flat: Boolean,
     innerScroll: Boolean,
-    titleClass: [String, Object],
+    titleClass: String,
     actions: [Array, Object, Function],
-    actionOptions: {
-      type: Object,
-      default: () => ({
-        flat: true
-      })
-    },
-    handle: Function, // todo: remove this parameter in next version
-    handler: Function
-  },
-  created () {
-    if (this.handle) {
-      console.warn('DEPRECATED: "handle" prop will be deprecated, please use "handler" instead')
-    }
+    handle: Function
   },
   methods: {
     trigger (name) {
